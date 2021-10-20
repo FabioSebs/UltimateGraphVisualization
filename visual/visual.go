@@ -1,10 +1,13 @@
 package visual
 
 import (
+	"fabrzy/analysis"
 	"fabrzy/graph"
 	"fabrzy/node"
+	"fmt"
 	"io"
 	"math/rand"
+	"net/http"
 	"os"
 
 	"github.com/go-echarts/go-echarts/charts"
@@ -90,6 +93,7 @@ func (_ *MyGraph) GenerateGraph(graph *graph.Graph) {
 	page := components.NewPage()
 	mymap := baseMap(graph)
 	mygraph := edgeGraph(graph)
+	myline := analysis.Analysis(graph)
 	page.AddCharts(mymap)
 	f, err := os.Create("map.html")
 	if err != nil {
@@ -100,6 +104,13 @@ func (_ *MyGraph) GenerateGraph(graph *graph.Graph) {
 		panic(err)
 	}
 
+	http.HandleFunc("/", func(rw http.ResponseWriter, _ *http.Request) {
+		page.Render(rw)
+		mygraph.Render(rw)
+		myline.Render(rw)
+	})
+	fmt.Println("\nVisualizations are on Port 8081 ^_^ !")
 	mygraph.Render(io.MultiWriter(f2))
 	page.Render(io.MultiWriter(f))
+	http.ListenAndServe(":8081", nil)
 }

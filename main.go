@@ -59,8 +59,9 @@ func main() {
 	}
 
 	//Displaying Visualizing Graph
-	testGraph.Populate(data, 10)
-	displayGraph.GenerateGraph(&testGraph)
+	testGraph.Populate(data, 20)
+	defer analysis.Analysis(&testGraph)
+	defer displayGraph.GenerateGraph(&testGraph)
 
 	//Table Generation
 	func(g *graph.Graph) {
@@ -91,7 +92,4 @@ func main() {
 
 	<-results
 	<-results
-
-	//Displaying Asymptotic Analysis
-	analysis.Analysis(&testGraph)
 }

@@ -51,7 +51,7 @@ func GetX(graph *graph.Graph) []int {
 	return points
 }
 
-func Analysis(graph *graph.Graph) {
+func Analysis(graph *graph.Graph) *charts.Line {
 	//Create a new line instance
 	line := charts.NewLine()
 
@@ -73,4 +73,5 @@ func Analysis(graph *graph.Graph) {
 		panic(err)
 	}
 	line.Render(f3)
+	return line
 }
