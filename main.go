@@ -32,8 +32,8 @@ func main() {
 	var displayGraph visual.MyGraph
 
 	//Table Colors/Vars
-	headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
-	columnFmt := color.New(color.FgYellow).SprintfFunc()
+	headerFmt := color.New(color.FgHiMagenta, color.Underline).SprintfFunc()
+	columnFmt := color.New(color.FgHiYellow).SprintfFunc()
 	tbl := table.New("Vertex", "Edges")
 	tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
 
@@ -76,20 +76,17 @@ func main() {
 	}(&testGraph)
 
 	tbl.Print()
-	fmt.Println("\nSearch Results")
+	fmt.Println("\nSearch Results\n")
+
 	//Testing Searches on Graphs
-	started := time.Now()
-	results := make(chan bool, 2) // 2 buffer channels
-
-	go func() {
-		results <- search.LinearSearch(&testGraph, testGraph.Nodes[4])
-		fmt.Printf("Linear Search: %v \n", time.Since(started))
+	func() {
+		bfs := time.Now()
+		res := search.BFS(&testGraph, testGraph.Nodes[4])
+		fmt.Printf("Breadth First Search: %v \nFound target: %t\n \n", time.Since(bfs), res)
 	}()
-	go func() {
-		results <- search.BFS(&testGraph, testGraph.Nodes[4])
-		fmt.Printf("Breadth First Search: %v \n", time.Since(started))
+	func() {
+		dfs := time.Now()
+		res := search.DFS(&testGraph, testGraph.Nodes[4])
+		fmt.Printf("Depth First Search: %v \nFound target: %t\n \n", time.Since(dfs), res)
 	}()
-
-	<-results
-	<-results
 }

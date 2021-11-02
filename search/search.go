@@ -5,7 +5,7 @@ import (
 	"fabrzy/node"
 )
 
-func LinearSearch(graph *graph.Graph, res *node.Node, x ...int) bool {
+func BFS(graph *graph.Graph, target *node.Node, x ...int) bool {
 	//default value
 	var i int
 	if len(x) == 0 {
@@ -15,55 +15,57 @@ func LinearSearch(graph *graph.Graph, res *node.Node, x ...int) bool {
 	}
 
 	//base cases
-	if len(graph.Nodes) == 0 {
+	if len(graph.Nodes) == 0 { //empty
 		return false
 	}
 
-	if i == len(graph.Nodes)-1 {
-		return graph.Nodes[i] == res
+	if i == len(graph.Nodes)-1 { //final index
+		return graph.Nodes[i] == target
 	}
 
 	//searching
-	if graph.Nodes[i] == res {
-		return true
-	} else {
-		return LinearSearch(graph, res, i+1)
-	}
-}
-
-func BFS(graph *graph.Graph, res *node.Node, x ...int) bool {
-	//default value
-	var i int
-	if len(x) == 0 {
-		i = 0
-	} else {
-		i = x[0]
-	}
-
-	//base cases
-	if len(graph.Nodes) == 0 {
-		return false
-	}
-
-	if i == len(graph.Nodes)-1 {
-		return graph.Nodes[i] == res
-	}
-
-	//searching
-	if graph.Nodes[i] == res {
+	if graph.Nodes[i] == target {
 		return true
 	} else {
 		for _, v := range graph.Edges[*graph.Nodes[i]] {
-			if v == res && v.Visited != false {
+			if v == target && v.Visited == false {
 				return true
 			}
 			v.Visited = true
 		}
 	}
-	return BFS(graph, res, i+1)
+	return BFS(graph, target, i+1)
 
 }
 
-// func bfs() {
+func DFS(graph *graph.Graph, target *node.Node, x ...int) bool {
+	//default value
+	var i int
+	if len(x) == 0 {
+		i = 0
+	} else {
+		i = x[0]
+	}
 
-// }
+	//base cases
+	if len(graph.Nodes) == 0 { //empty
+		return false
+	}
+
+	//capture keys
+	//searching
+	if graph.Nodes[i] == target {
+		return true
+	} else {
+		for k := range graph.Edges {
+			for _, v := range graph.Edges[k] {
+				if target == v && v.Visited == false {
+					return true
+				}
+				v.Visited = true
+			}
+		}
+	}
+
+	return false
+}

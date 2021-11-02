@@ -109,6 +109,7 @@ func (_ *MyGraph) GenerateGraph(graph *graph.Graph) {
 		mygraph.Render(rw)
 		myline.Render(rw)
 	})
+
 	fmt.Println("\nVisualizations are on Port 8081 ^_^ !")
 	mygraph.Render(io.MultiWriter(f2))
 	page.Render(io.MultiWriter(f))

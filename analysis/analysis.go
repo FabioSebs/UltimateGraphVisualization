@@ -11,26 +11,16 @@ import (
 	"github.com/go-echarts/go-echarts/v2/types"
 )
 
-func Linear(graph *graph.Graph, i int) time.Duration {
-	started := time.Now()
-	search.LinearSearch(graph, graph.Nodes[i])
-	return time.Since(started)
-}
-
 func BFS(graph *graph.Graph, i int) time.Duration {
 	started := time.Now()
 	search.BFS(graph, graph.Nodes[i])
 	return time.Since(started)
 }
 
-func GenerateLineItemsLS(graph *graph.Graph) []opts.LineData {
-	items := make([]opts.LineData, 0)
-	values := graph.Nodes
-
-	for i := range values {
-		items = append(items, opts.LineData{Value: Linear(graph, i)})
-	}
-	return items
+func DFS(graph *graph.Graph, i int) time.Duration {
+	started := time.Now()
+	search.DFS(graph, graph.Nodes[i])
+	return time.Since(started)
 }
 
 func GenerateLineItemsBFS(graph *graph.Graph) []opts.LineData {
@@ -39,6 +29,16 @@ func GenerateLineItemsBFS(graph *graph.Graph) []opts.LineData {
 
 	for i := range values {
 		items = append(items, opts.LineData{Value: BFS(graph, i)})
+	}
+	return items
+}
+
+func GenerateLineItemsDFS(graph *graph.Graph) []opts.LineData {
+	items := make([]opts.LineData, 0)
+	values := graph.Nodes
+
+	for i := range values {
+		items = append(items, opts.LineData{Value: DFS(graph, i)})
 	}
 	return items
 }
@@ -60,12 +60,12 @@ func Analysis(graph *graph.Graph) *charts.Line {
 		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeChalk}),
 		charts.WithTitleOpts(opts.Title{
 			Title:    "Asymptotic Analysis of Graph Search",
-			Subtitle: "Linear Vs BFS",
+			Subtitle: "BFS Vs DFS",
 		}))
 
 	line.SetXAxis(GetX(graph)).
-		AddSeries("Linear", GenerateLineItemsLS(graph)).
 		AddSeries("BFS", GenerateLineItemsBFS(graph)).
+		AddSeries("DFS", GenerateLineItemsDFS(graph)).
 		SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
 
 	f3, err := os.Create("lineGraph.html")
