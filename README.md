@@ -1,4 +1,4 @@
-# :fire: :dragon: Ultimate Graph Visualization :fire: :dragon:
+# :fire: :dragon_face: Ultimate Graph Visualization :fire: :dragon_face:
 
 ---
 
@@ -16,7 +16,7 @@ $docker run {imageid}
 
 The **_docker images_** command should show you the image id that you have pulled from dockerhub repo. The **_image id_** is used for the **_docker run_** command.
 
-### Git Clone :git:
+### Git Clone :rocket:
 
 > this assumes you have Go installed.
 
