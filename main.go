@@ -60,6 +60,7 @@ func main() {
 
 	//Displaying Visualizing Graph
 	testGraph.Populate(data, 20)
+	// AddRandomEdges(&testGraph)
 	defer analysis.Analysis(&testGraph)
 	defer displayGraph.GenerateGraph(&testGraph)
 

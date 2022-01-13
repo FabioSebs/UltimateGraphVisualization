@@ -6,6 +6,7 @@ import (
 
 type Node struct {
 	Value   string
+	Weight  int
 	Visited bool
 }
 
